@@ -1,0 +1,92 @@
+-- 1. Bảng sự kiện tốt nghiệp
+CREATE TABLE graduation_event (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    title NVARCHAR(255) NOT NULL DEFAULT N'Lễ Tốt Nghiệp 2025',
+    graduate_name NVARCHAR(255) NOT NULL,
+    school NVARCHAR(255) NOT NULL,
+    major NVARCHAR(255),
+    graduation_year INT NOT NULL,
+    event_date DATETIME2 NOT NULL,
+    event_location NVARCHAR(500) NOT NULL,
+    location_map_url NVARCHAR(500),
+    description NVARCHAR(MAX),
+    cover_image NVARCHAR(500),
+    background_music_url NVARCHAR(500),
+    password_protect NVARCHAR(100), -- Mật khẩu xem thiệp (nếu có)
+    is_active BIT DEFAULT 1,
+    created_at DATETIME2 DEFAULT GETDATE(),
+    updated_at DATETIME2 DEFAULT GETDATE()
+);
+-- 2. Bảng khách mời
+CREATE TABLE guest (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    event_id INT NOT NULL,
+    full_name NVARCHAR(255) NOT NULL,
+    phone NVARCHAR(20),
+    email NVARCHAR(255),
+    group_category NVARCHAR(100), -- Gia đình, Bạn cấp 3, Bạn đại học...
+    plus_one_allowed BIT DEFAULT 1,
+    max_guests INT DEFAULT 1,
+    invite_token NVARCHAR(64) UNIQUE NOT NULL,
+    is_invited BIT DEFAULT 0,
+    invited_at DATETIME2,
+    viewed_at DATETIME2,
+    created_at DATETIME2 DEFAULT GETDATE(),
+    CONSTRAINT FK_guest_event FOREIGN KEY (event_id)
+        REFERENCES graduation_event(id) ON DELETE CASCADE,
+    CONSTRAINT UQ_guest_event_name UNIQUE (event_id, full_name)
+);
+-- 3. Bảng xác nhận tham dự (RSVP)
+CREATE TABLE rsvp (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    guest_id INT NOT NULL UNIQUE,
+    status NVARCHAR(20) NOT NULL CHECK (status IN (N'yes', N'no', N'maybe')),
+    attending_guests INT DEFAULT 1,
+    dietary_note NVARCHAR(MAX),
+    message NVARCHAR(MAX),
+    responded_at DATETIME2 DEFAULT GETDATE(),
+    CONSTRAINT FK_rsvp_guest FOREIGN KEY (guest_id)
+        REFERENCES guest(id) ON DELETE CASCADE
+);
+-- 4. Sổ lời chúc (Guestbook)
+CREATE TABLE guestbook (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    event_id INT NOT NULL,
+    guest_id INT NULL,
+    guest_name NVARCHAR(255) NOT NULL,
+    message NVARCHAR(MAX) NOT NULL,
+    is_approved BIT DEFAULT 1,
+    created_at DATETIME2 DEFAULT GETDATE(),
+    CONSTRAINT FK_guestbook_event FOREIGN KEY (event_id)
+        REFERENCES graduation_event(id) ON DELETE CASCADE,
+    CONSTRAINT FK_guestbook_guest FOREIGN KEY (guest_id)
+        REFERENCES guest(id) ON DELETE SET NULL
+);
+-- 5. Album ảnh
+CREATE TABLE album_photo (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    event_id INT NOT NULL,
+    image_url NVARCHAR(500) NOT NULL,
+    caption NVARCHAR(500),
+    uploaded_by_guest_id INT NULL,
+    uploaded_at DATETIME2 DEFAULT GETDATE(),
+    is_featured BIT DEFAULT 0,
+    CONSTRAINT FK_album_event FOREIGN KEY (event_id)
+        REFERENCES graduation_event(id) ON DELETE CASCADE,
+    CONSTRAINT FK_album_guest FOREIGN KEY (uploaded_by_guest_id)
+        REFERENCES guest(id) ON DELETE SET NULL
+);
+-- 6. Thống kê lượt xem
+CREATE TABLE event_analytics (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    event_id INT NOT NULL,
+    guest_id INT NULL,
+    ip_address NVARCHAR(45),
+    user_agent NVARCHAR(MAX),
+    referrer NVARCHAR(MAX),
+    viewed_at DATETIME2 DEFAULT GETDATE(),
+    CONSTRAINT FK_analytics_event FOREIGN KEY (event_id)
+        REFERENCES graduation_event(id) ON DELETE CASCADE,
+    CONSTRAINT FK_analytics_guest FOREIGN KEY (guest_id)
+        REFERENCES guest(id) ON DELETE SET NULL
+);
