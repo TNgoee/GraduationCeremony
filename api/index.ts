@@ -14,10 +14,21 @@ export default async function handler(req: any, res: any) {
     if (!initialized) {
         // Initialize MongoDB connection
         try {
+            if (!process.env.MONGODB_URI) {
+                console.error("❌ MONGODB_URI environment variable is not set!");
+                return res.status(500).json({ 
+                    error: "Database configuration error",
+                    message: "MONGODB_URI is not configured. Please set it in Vercel environment variables."
+                });
+            }
             await connectDB();
         } catch (error) {
             console.error("Failed to connect to MongoDB:", error);
-            return res.status(500).json({ error: "Database connection failed" });
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            return res.status(500).json({ 
+                error: "Database connection failed",
+                message: errorMessage 
+            });
         }
         
         const server = createServer(app);

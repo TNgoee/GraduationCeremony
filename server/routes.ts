@@ -87,7 +87,13 @@ export async function registerRoutes(
       res.json(formattedData);
     } catch (error) {
       console.error("Error fetching guestbook entries:", error);
-      res.status(500).json({ error: "Failed to fetch guestbook entries" });
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      const errorStack = error instanceof Error ? error.stack : undefined;
+      console.error("Error details:", { errorMessage, errorStack });
+      res.status(500).json({ 
+        error: "Failed to fetch guestbook entries",
+        message: errorMessage 
+      });
     }
   });
 

@@ -16,10 +16,19 @@ let dbInstance: Db | null = null;
 
 export async function connectDB(): Promise<Db> {
   if (!dbInstance) {
-    await client.connect();
-    const dbName = process.env.MONGODB_DB_NAME || "graduation_ceremony";
-    dbInstance = client.db(dbName);
-    console.log(`✅ Connected to MongoDB Atlas - Database: ${dbName}`);
+    try {
+      await client.connect();
+      const dbName = process.env.MONGODB_DB_NAME || "graduation_ceremony";
+      dbInstance = client.db(dbName);
+      console.log(`✅ Connected to MongoDB Atlas - Database: ${dbName}`);
+    } catch (error) {
+      console.error("❌ MongoDB connection error:", error);
+      if (error instanceof Error) {
+        console.error("Error message:", error.message);
+        console.error("Error stack:", error.stack);
+      }
+      throw error;
+    }
   }
   return dbInstance;
 }
