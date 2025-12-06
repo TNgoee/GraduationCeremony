@@ -15,8 +15,16 @@ export function Guestbook() {
   const [newEmail, setNewEmail] = useState("");
   const [newMessage, setNewMessage] = useState("");
 
-  const { data: messages = [], isLoading } = useGuestbookEntries();
+  const { data: messages = [], isLoading, error } = useGuestbookEntries();
   const createMutation = useCreateGuestbookEntry();
+
+  // Debug: log messages
+  if (messages.length > 0) {
+    console.log("Guestbook messages:", messages);
+  }
+  if (error) {
+    console.error("Guestbook error:", error);
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,9 +127,7 @@ export function Guestbook() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {messages
-                    .filter((m: any) => m.is_approved === 1)
-                  .map((msg, idx) => (
+                  {messages.map((msg, idx) => (
                     <motion.div
                       key={msg.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -141,7 +147,7 @@ export function Guestbook() {
                             {msg.name}
                           </h4>
                           <span className="text-xs text-muted-foreground">
-                            {new Date(msg.createdAt).toLocaleDateString("en-US")}
+                            {msg.createdAt ? new Date(msg.createdAt).toLocaleDateString("en-US") : ""}
                           </span>
                         </div>
 

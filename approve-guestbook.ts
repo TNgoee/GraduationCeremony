@@ -1,14 +1,31 @@
-import Database from "better-sqlite3";
+import "dotenv/config";
+import { connectDB } from "./server/db";
+import { COLLECTIONS } from "./shared/schema";
 
-const db = new Database("data.db");
+async function approveAllGuestbookEntries() {
+  try {
+    const db = await connectDB();
+    
+    // Duyệt tất cả lời chúc
+    const result = await db
+      .collection(COLLECTIONS.GUESTBOOK_ENTRIES)
+      .updateMany({}, { $set: { isApproved: true } });
+    
+    console.log(`✓ Đã duyệt ${result.modifiedCount} lời chúc!`);
+    
+    // Kiểm tra
+    const guestbook = await db
+      .collection(COLLECTIONS.GUESTBOOK_ENTRIES)
+      .find({})
+      .toArray();
+    
+    console.table(guestbook);
+  } catch (error) {
+    console.error("Lỗi khi duyệt lời chúc:", error);
+    process.exit(1);
+  } finally {
+    process.exit(0);
+  }
+}
 
-// Duyệt tất cả lời chúc
-db.prepare("UPDATE guestbook_entries SET is_approved = 1").run();
-
-console.log("✓ Đã duyệt tất cả lời chúc!");
-
-// Kiểm tra
-const guestbook = db.prepare("SELECT * FROM guestbook_entries").all();
-console.table(guestbook);
-
-db.close();
+approveAllGuestbookEntries();

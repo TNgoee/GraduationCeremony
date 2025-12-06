@@ -1,47 +1,63 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, boolean } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { ObjectId } from "mongodb";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
-});
-
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+// User Schema
+export const insertUserSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
 
-export const rsvps = pgTable("rsvps", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
-  numberOfGuests: integer("number_of_guests").default(1),
-  dietaryRestrictions: text("dietary_restrictions"),
-  specialRequests: text("special_requests"),
-  status: text("status").default("pending"),
-});
+export interface User {
+  _id?: ObjectId;
+  id?: string;
+  username: string;
+  password: string;
+}
 
-export const guestbookEntries = pgTable("guestbook_entries", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
-  message: text("message").notNull(),
-  email: text("email"),
-  isApproved: boolean("is_approved").default(false),
-});
+// RSVP Schema
+export interface RSVP {
+  _id?: ObjectId;
+  id?: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  numberOfGuests?: number;
+  dietaryRestrictions?: string | null;
+  specialRequests?: string | null;
+  status?: string;
+  createdAt?: Date;
+}
 
-export const galleryImages = pgTable("gallery_images", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  title: text("title").notNull(),
-  description: text("description"),
-  imageUrl: text("image_url").notNull(),
-  thumbnailUrl: text("thumbnail_url"),
-  category: text("category").default("general"),
-  uploadedBy: text("uploaded_by"),
-});
+// Guestbook Entry Schema
+export interface GuestbookEntry {
+  _id?: ObjectId;
+  id?: string;
+  name: string;
+  message: string;
+  email?: string | null;
+  isApproved?: boolean;
+  createdAt?: Date;
+}
+
+// Gallery Image Schema
+export interface GalleryImage {
+  _id?: ObjectId;
+  id?: string;
+  title: string;
+  description?: string | null;
+  imageUrl: string;
+  thumbnailUrl?: string | null;
+  category?: string;
+  uploadedBy?: string | null;
+  createdAt?: Date;
+}
+
+// Collection names
+export const COLLECTIONS = {
+  USERS: "users",
+  RSVPS: "rsvps",
+  GUESTBOOK_ENTRIES: "guestbook_entries",
+  GALLERY_IMAGES: "gallery_images",
+} as const;

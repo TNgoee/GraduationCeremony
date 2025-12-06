@@ -1,48 +1,33 @@
-import Database from "better-sqlite3";
-import path from "path";
+import "dotenv/config";
+import { MongoClient, Db } from "mongodb";
 
-// Use SQLite for persistent storage
-const dbPath = path.join(process.cwd(), "data.db");
-const db = new Database(dbPath);
-
-// Enable foreign keys
-db.pragma("foreign_keys = ON");
-
-// Create tables if they don't exist
-db.exec(`
-  CREATE TABLE IF NOT EXISTS rsvps (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT,
-    numberOfGuests INTEGER DEFAULT 1,
-    dietaryRestrictions TEXT,
-    specialRequests TEXT,
-    status TEXT DEFAULT 'pending',
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+if (!process.env.MONGODB_URI) {
+  throw new Error(
+    "MONGODB_URI must be set. Did you forget to provision a database?",
   );
+}
 
-  CREATE TABLE IF NOT EXISTS guestbook_entries (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    message TEXT NOT NULL,
-    email TEXT,
-    is_approved INTEGER DEFAULT 0,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
+// Log connection info (hide password for security)
+const uriForLog = process.env.MONGODB_URI.replace(/:[^:@]+@/, ":****@");
+console.log(`🔗 Connecting to MongoDB: ${uriForLog}`);
 
-  CREATE TABLE IF NOT EXISTS gallery_images (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    description TEXT,
-    imageUrl TEXT NOT NULL,
-    thumbnailUrl TEXT,
-    category TEXT DEFAULT 'general',
-    uploadedBy TEXT,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-`);
+const client = new MongoClient(process.env.MONGODB_URI);
+let dbInstance: Db | null = null;
 
-console.log("✓ Connected to SQLite database");
+export async function connectDB(): Promise<Db> {
+  if (!dbInstance) {
+    await client.connect();
+    const dbName = process.env.MONGODB_DB_NAME || "graduation_ceremony";
+    dbInstance = client.db(dbName);
+    console.log(`✅ Connected to MongoDB Atlas - Database: ${dbName}`);
+  }
+  return dbInstance;
+}
+
+export const db = {
+  async getDb(): Promise<Db> {
+    return await connectDB();
+  },
+};
 
 export default db;
