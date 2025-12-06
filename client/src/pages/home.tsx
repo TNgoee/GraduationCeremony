@@ -33,16 +33,17 @@ export default function Home() {
       <MusicPlayer />
 
       <footer className="py-12 bg-primary text-primary-foreground text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="font-script text-4xl mb-4 text-secondary">Thank You</h2>
-          <p className="opacity-70 font-serif">
-            Rất mong được đón tiếp bạn tại lễ tốt nghiệp của tôi.
-          </p>
-          <div className="mt-8 text-sm opacity-50">
-            © 2025 Graduation Event. Designed with Replit.
-          </div>
-        </div>
-      </footer>
+  <div className="max-w-4xl mx-auto px-4">
+    <h2 className="font-script text-4xl mb-4 text-secondary">Thank You</h2>
+    <p className="opacity-70 font-serif">
+      We look forward to welcoming you to my graduation ceremony.
+    </p>
+    <div className="mt-8 text-sm opacity-50">
+      © 2025 Graduation Event. Designed with Replit.
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 }

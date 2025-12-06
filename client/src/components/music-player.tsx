@@ -7,20 +7,56 @@ export function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  // Mock audio ref - in a real app this would point to the file
-  // const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [progress, setProgress] = useState(0); // % progress bar
+
+  // ref tới audio thật
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Update progress bar khi audio đang chạy
+ useEffect(() => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  // Thử autoplay khi component mount
+  const playAudio = async () => {
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch (err) {
+      console.warn("Autoplay blocked by browser:", err);
+    }
+  };
+
+  playAudio();
+}, []);
+
 
   const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) audio.pause();
+    else audio.play();
+
     setIsPlaying(!isPlaying);
-    // if (audioRef.current) {
-    //   if (isPlaying) audioRef.current.pause();
-    //   else audioRef.current.play();
-    // }
+  };
+
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.muted = !audio.muted;
+    setIsMuted(audio.muted);
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
+      <audio
+        ref={audioRef}
+        src="/audio/graduation.mp3" // đường dẫn nhạc của bạn
+        loop
+      />
+
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -40,23 +76,25 @@ export function MusicPlayer() {
             </div>
             
             <div className="flex items-center justify-between gap-2">
-              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsMuted(!isMuted)}>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={toggleMute}>
                 {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
               </Button>
               
               <div className="flex-1 h-1 bg-secondary/20 rounded-full overflow-hidden">
                 <motion.div 
                   className="h-full bg-secondary"
-                  animate={{ width: isPlaying ? "100%" : "0%" }}
-                  transition={{ 
-                    duration: isPlaying ? 30 : 0, 
-                    repeat: isPlaying ? Infinity : 0,
-                    ease: "linear"
-                  }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ ease: "linear" }}
                 />
               </div>
               
-              <span className="text-xs font-mono text-muted-foreground">2:14</span>
+              <span className="text-xs font-mono text-muted-foreground">
+                {audioRef.current
+                  ? `${Math.floor(audioRef.current.currentTime / 60)}:${Math.floor(audioRef.current.currentTime % 60)
+                      .toString()
+                      .padStart(2, "0")}`
+                  : "0:00"}
+              </span>
             </div>
           </motion.div>
         )}

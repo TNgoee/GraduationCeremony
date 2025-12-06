@@ -25,8 +25,8 @@ export function EventDetails() {
               />
               <div className="absolute inset-0 bg-linear-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
                 <div>
-                  <h3 className="text-white font-serif text-2xl font-bold">Nguyễn Văn A</h3>
-                  <p className="text-white/90 font-sans">Cử nhân Khoa học Máy tính</p>
+                  <h3 className="text-white font-serif text-2xl font-bold">Tran Thi Thao Nguyen</h3>
+                  <p className="text-white/90 font-sans">Bachelor of Information Technology</p>
                 </div>
               </div>
             </div>
@@ -41,12 +41,12 @@ export function EventDetails() {
             className="space-y-12"
           >
             <div className="space-y-4">
-              <span className="text-secondary font-bold tracking-widest uppercase text-sm">Thời gian & Địa điểm</span>
+              <span className="text-secondary font-bold tracking-widest uppercase text-sm">Time & Location</span>
               <h2 className="text-4xl md:text-5xl font-serif text-primary font-bold leading-tight">
-                Thông Tin <br/> Buổi Lễ
+                Event <br/> Information
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Sự hiện diện của bạn là niềm vinh hạnh lớn nhất đối với tôi và gia đình trong ngày trọng đại này.
+                Your presence is the greatest honor to me and my family on this special day.
               </p>
             </div>
 
@@ -56,8 +56,8 @@ export function EventDetails() {
                   <Calendar className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-xl font-bold text-primary mb-1">Ngày tổ chức</h4>
-                  <p className="text-muted-foreground text-lg">Chủ Nhật, 15 Tháng 6, 2025</p>
+                  <h4 className="font-serif text-xl font-bold text-primary mb-1">Event Date</h4>
+                  <p className="text-muted-foreground text-lg">Sunday, June 15th, 2025</p>
                 </div>
               </div>
 
@@ -66,9 +66,9 @@ export function EventDetails() {
                   <Clock className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-xl font-bold text-primary mb-1">Thời gian</h4>
-                  <p className="text-muted-foreground text-lg">08:00 Sáng - Đón khách</p>
-                  <p className="text-muted-foreground text-lg">09:00 Sáng - Khai mạc buổi lễ</p>
+                  <h4 className="font-serif text-xl font-bold text-primary mb-1">Time</h4>
+                  <p className="text-muted-foreground text-lg">08:00 AM – Guest Reception</p>
+                  <p className="text-muted-foreground text-lg">09:00 AM – Ceremony Opening</p>
                 </div>
               </div>
 
@@ -77,12 +77,23 @@ export function EventDetails() {
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-serif text-xl font-bold text-primary mb-1">Địa điểm</h4>
-                  <p className="text-muted-foreground text-lg">Hội trường A, Đại học Quốc Gia</p>
-                  <p className="text-muted-foreground">Quận Cầu Giấy, Hà Nội</p>
-                  <a href="#" className="inline-flex items-center gap-2 text-secondary hover:text-secondary/80 font-medium mt-2 text-sm">
-                    Xem bản đồ <ExternalLink className="w-4 h-4" />
-                  </a>
+                  <h4 className="font-serif text-xl font-bold text-primary mb-1">Location</h4>
+                  <p className="text-muted-foreground text-lg">HUFLIT University – Hoc Mon Campus</p>
+                  <p className="text-muted-foreground">Hoc Mon District, Ho Chi Minh City</p>
+                 <div className="map-container mt-4">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.053201091173!2d106.59847431526016!3d10.865332192283643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752b088de30f3b%3A0xd2140740d360f705!2sHUFLIT!5e0!3m2!1sen!2s!4v1701850324385!5m2!1sen!2s"
+    width="100%"
+    height="450"
+    style={{ border: 0 }}
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+    className="rounded-lg"
+  ></iframe>
+</div>
+
+
                 </div>
               </div>
             </div>

@@ -23,15 +23,15 @@ export function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <span className="font-script text-3xl md:text-5xl text-secondary mb-4 block">
-            Trân trọng kính mời
+            You Are Cordially Invited
           </span>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-9xl font-bold mb-6 tracking-tight leading-none">
-            Lễ Tốt Nghiệp
+            Graduation Ceremony
           </h1>
           <div className="flex items-center justify-center gap-4 mb-8">
             <div className="h-[1px] w-12 md:w-24 bg-secondary/80" />
             <span className="font-sans text-xl md:text-2xl tracking-widest uppercase text-white/90">
-              Niên Khóa 2025
+              Class of 2026
             </span>
             <div className="h-[1px] w-12 md:w-24 bg-secondary/80" />
           </div>
@@ -42,9 +42,9 @@ export function Hero() {
             transition={{ delay: 0.5, duration: 1 }}
             className="font-sans text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
           >
-            Đánh dấu một chặng đường đầy nỗ lực và đam mê. 
+            A milestone marking years of dedication and passion. 
             <br className="hidden md:block" />
-            Hãy cùng chia sẻ khoảnh khắc đặc biệt này.
+            Join us as we celebrate this special moment together.
           </motion.p>
         </motion.div>
 
@@ -58,7 +58,7 @@ export function Hero() {
             href="#rsvp"
             className="inline-block px-8 py-4 bg-secondary text-secondary-foreground font-serif text-lg font-semibold rounded-full hover:bg-white hover:text-primary transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer"
           >
-            Xác Nhận Tham Dự
+            Confirm Attendance
           </a>
         </motion.div>
       </div>
