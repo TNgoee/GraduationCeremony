@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { type User, type InsertUser, COLLECTIONS } from "@shared/schema";
+import { type User, type InsertUser, COLLECTIONS } from "../shared/schema";
 import db from "./db";
 
 export interface IStorage {
@@ -15,9 +15,9 @@ export class MongoStorage implements IStorage {
       const user = await database
         .collection<User>(COLLECTIONS.USERS)
         .findOne({ _id: new ObjectId(id) });
-      
+
       if (!user) return undefined;
-      
+
       return {
         ...user,
         id: user._id?.toString(),
@@ -35,9 +35,9 @@ export class MongoStorage implements IStorage {
       const user = await database
         .collection<User>(COLLECTIONS.USERS)
         .findOne({ username });
-      
+
       if (!user) return undefined;
-      
+
       return {
         ...user,
         id: user._id?.toString(),
@@ -56,7 +56,7 @@ export class MongoStorage implements IStorage {
     };
 
     const result = await database.collection<User>(COLLECTIONS.USERS).insertOne(newUser);
-    
+
     return {
       ...newUser,
       id: result.insertedId.toString(),

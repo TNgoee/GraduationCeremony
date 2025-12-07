@@ -15,7 +15,10 @@ export async function connectDB(): Promise<Db> {
     // Log connection info (hide password for security)
     const uriForLog = process.env.MONGODB_URI.replace(/:[^:@]+@/, ":****@");
     console.log(`🔗 Connecting to MongoDB: ${uriForLog}`);
-    client = new MongoClient(process.env.MONGODB_URI);
+    client = new MongoClient(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+    });
   }
 
   if (!dbInstance) {

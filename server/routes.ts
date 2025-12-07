@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { ObjectId } from "mongodb";
-import { COLLECTIONS, type RSVP, type GuestbookEntry, type GalleryImage } from "@shared/schema";
+import { COLLECTIONS, type RSVP, type GuestbookEntry, type GalleryImage } from "../shared/schema";
 import db from "./db";
 
 export async function registerRoutes(
@@ -17,7 +17,7 @@ export async function registerRoutes(
         .find({})
         .sort({ createdAt: -1 })
         .toArray();
-      
+
       // Convert _id to id for frontend compatibility
       const formattedData = rsvpsData.map((rsvp) => {
         const { _id, ...rest } = rsvp;
@@ -27,7 +27,7 @@ export async function registerRoutes(
           createdAt: rsvp.createdAt ? new Date(rsvp.createdAt).toISOString() : new Date().toISOString(),
         };
       });
-      
+
       res.json(formattedData);
     } catch (error) {
       console.error("Error fetching RSVPs:", error);
@@ -73,7 +73,7 @@ export async function registerRoutes(
         .find({ isApproved: true })
         .sort({ createdAt: -1 })
         .toArray();
-      
+
       // Convert _id to id for frontend compatibility
       const formattedData = entries.map((entry) => {
         const { _id, ...rest } = entry;
@@ -83,16 +83,16 @@ export async function registerRoutes(
           createdAt: entry.createdAt ? new Date(entry.createdAt).toISOString() : new Date().toISOString(),
         };
       });
-      
+
       res.json(formattedData);
     } catch (error) {
       console.error("Error fetching guestbook entries:", error);
       const errorMessage = error instanceof Error ? error.message : "Unknown error";
       const errorStack = error instanceof Error ? error.stack : undefined;
       console.error("Error details:", { errorMessage, errorStack });
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Failed to fetch guestbook entries",
-        message: errorMessage 
+        message: errorMessage
       });
     }
   });
@@ -132,7 +132,7 @@ export async function registerRoutes(
         .find({})
         .sort({ createdAt: -1 })
         .toArray();
-      
+
       // Convert _id to id for frontend compatibility
       const formattedData = images.map((image) => {
         const { _id, ...rest } = image;
@@ -142,7 +142,7 @@ export async function registerRoutes(
           createdAt: image.createdAt ? new Date(image.createdAt).toISOString() : new Date().toISOString(),
         };
       });
-      
+
       res.json(formattedData);
     } catch (error) {
       console.error("Error fetching gallery images:", error);
@@ -159,7 +159,7 @@ export async function registerRoutes(
         .find({ category })
         .sort({ createdAt: -1 })
         .toArray();
-      
+
       // Convert _id to id for frontend compatibility
       const formattedData = images.map((image) => {
         const { _id, ...rest } = image;
@@ -169,7 +169,7 @@ export async function registerRoutes(
           createdAt: image.createdAt ? new Date(image.createdAt).toISOString() : new Date().toISOString(),
         };
       });
-      
+
       res.json(formattedData);
     } catch (error) {
       console.error("Error fetching gallery images:", error);
