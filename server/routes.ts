@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { ObjectId } from "mongodb";
-import { COLLECTIONS, type RSVP, type GuestbookEntry, type GalleryImage } from "../shared/schema";
-import db from "./db";
+import { COLLECTIONS, type RSVP, type GuestbookEntry, type GalleryImage } from "../shared/schema.js";
+import db from "./db.js";
 
 export async function registerRoutes(
   httpServer: Server,

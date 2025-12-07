@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
-import { type User, type InsertUser, COLLECTIONS } from "../shared/schema";
-import db from "./db";
+import { type User, type InsertUser, COLLECTIONS } from "../shared/schema.js";
+import db from "./db.js";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
