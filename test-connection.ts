@@ -22,3 +22,5 @@ if (uri.includes("localhost") || uri.includes("127.0.0.1")) {
 
 console.log(`\n📋 Database name: ${process.env.MONGODB_DB_NAME || "graduation_ceremony"}`);
 
+
+
