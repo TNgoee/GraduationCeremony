@@ -4,6 +4,8 @@ import campusImg from "@assets/generated_images/university_campus_architecture.p
 import groupImg from "@assets/generated_images/group_of_graduates_celebrating.png";
 import portraitImg from "@assets/generated_images/graduate_portrait.png";
 import heroImg from "@assets/generated_images/graduation_hero_image_with_confetti.png";
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
 
 const PHOTOS = [
   { src: heroImg, alt: "Ceremony", span: "col-span-2 row-span-2" },
@@ -74,6 +76,19 @@ export function Gallery() {
                 />
               </motion.div>
             ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex justify-center mt-12"
+          >
+            <Link href="/couple-gallery">
+              <Button size="lg" className="rounded-full px-8 font-serif text-lg">
+                See More Memories
+              </Button>
+            </Link>
           </motion.div>
 
         </div>

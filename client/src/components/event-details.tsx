@@ -57,7 +57,7 @@ export function EventDetails() {
                 </div>
                 <div>
                   <h4 className="font-serif text-xl font-bold text-primary mb-1">Event Date</h4>
-                  <p className="text-muted-foreground text-lg">Sunday, June 15th, 2025</p>
+                 <p className="text-muted-foreground text-lg">Tuesday, April 7th, 2026</p>
                 </div>
               </div>
 
@@ -67,8 +67,8 @@ export function EventDetails() {
                 </div>
                 <div>
                   <h4 className="font-serif text-xl font-bold text-primary mb-1">Time</h4>
-                  <p className="text-muted-foreground text-lg">08:00 AM – Guest Reception</p>
-                  <p className="text-muted-foreground text-lg">09:00 AM – Ceremony Opening</p>
+                  <p className="text-muted-foreground text-lg">12:00 PM – Photo Session</p>
+  <p className="text-muted-foreground text-lg">1:30 PM – Graduation Ceremony</p>
                 </div>
               </div>
 

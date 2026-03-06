@@ -53,7 +53,7 @@ export function MusicPlayer() {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
       <audio
         ref={audioRef}
-        src="/audio/graduation.mp3" // đường dẫn nhạc của bạn
+        src="/audio/ngayngo.mp3" // đường dẫn nhạc của bạn
         loop
       />
 
@@ -70,8 +70,8 @@ export function MusicPlayer() {
                 <Music className="w-5 h-5 text-primary" />
               </div>
               <div className="overflow-hidden">
-                <p className="font-bold text-sm truncate">Graduation Celebration</p>
-                <p className="text-xs text-muted-foreground truncate">Piano & Strings</p>
+                <p className="font-bold text-sm truncate">NGÂY NGÔ</p>
+                <p className="text-xs text-muted-foreground truncate">CHOCO FT. AUGUST</p>
               </div>
             </div>
             

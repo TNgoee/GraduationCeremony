@@ -92,7 +92,7 @@ export function RSVPForm() {
         >
           <div className="bg-primary p-8 text-center">
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-2">RSVP</h2>
-            <p className="text-white/80">Please confirm your attendance before June 1, 2025</p>
+            <p className="text-white/80">Please confirm your attendance before April 6, 2026</p>
           </div>
           
           <div className="p-8 md:p-12">
