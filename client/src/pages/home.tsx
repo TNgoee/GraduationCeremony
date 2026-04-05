@@ -37,8 +37,8 @@ export default function Home() {
         <Hero />
         <EventDetails />
         <Gallery />
-        <RSVPForm />
-        <Guestbook />
+        {/* <RSVPForm />
+        <Guestbook /> */}
 
         {/* Thank You Section */}
         <section className="py-20 px-4 text-center">
