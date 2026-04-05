@@ -21,6 +21,7 @@ export const useCreateRsvp = () => {
       email: string;
       phone?: string;
       numberOfGuests?: number;
+      status: "pending" | "confirmed" | "declined";
       dietaryRestrictions?: string;
       specialRequests?: string;
     }) => {

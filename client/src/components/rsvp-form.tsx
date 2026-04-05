@@ -57,11 +57,18 @@ export function RSVPForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+   const statusMap = {
+  yes: "confirmed",
+  maybe: "pending",
+  no: "declined",
+} as const;
     try {
       await createRsvpMutation.mutateAsync({
+        
         name: values.name,
         email: values.email,
         phone: values.phone,
+        status: statusMap[values.status],
         numberOfGuests: parseInt(values.guests),
         dietaryRestrictions: values.dietaryRestrictions,
         specialRequests: values.specialRequests,

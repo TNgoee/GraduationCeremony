@@ -1,9 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import campusImg from "@assets/generated_images/university_campus_architecture.png";
-import groupImg from "@assets/generated_images/group_of_graduates_celebrating.png";
-import portraitImg from "@assets/generated_images/graduate_portrait.png";
-import heroImg from "@assets/generated_images/graduation_hero_image_with_confetti.png";
+import campusImg from "@assets/generated_images/35.jpg";
+import groupImg from "@assets/generated_images/30.jpg";
+import portraitImg from "@assets/generated_images/32.jpg";
+import heroImg from "@assets/generated_images/33.jpg";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 

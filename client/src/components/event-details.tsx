@@ -1,37 +1,174 @@
-import { motion } from "framer-motion";
-import { MapPin, Calendar, Clock, ExternalLink } from "lucide-react";
-import portraitImage from "@assets/generated_images/graduate_portrait.png";
 
+import { MapPin, Calendar, Clock, ExternalLink } from "lucide-react";
+import portraitImage from "@assets/generated_images/22.jpg";
+import portraitImage2 from "@assets/generated_images/34.jpg"; // ← thêm hình thứ 2 vào đây
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+const images = [portraitImage, portraitImage2];
+
+const slides = [
+  {
+    id: 1,
+    image: portraitImage,
+    name: "Tran Thi Thao Nguyen",
+    major: "Bachelor of Information Technology",
+  },
+  {
+    id: 2,
+    image: portraitImage2,
+    name: "Nguyen Quoc Trung",           // Tên khác cho ảnh thứ 2
+    major: "Bachelor of Information Technology",     // Có thể để tiếng Việt hoặc thêm chi tiết
+  },
+];
 export function EventDetails() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+// Auto slide
+  useEffect(() => {
+    if (isHovered) return;
+
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, 4500); // 4.5 giây
+
+    return () => clearInterval(timer);
+  }, [isHovered]);
+
+  const goToIndex = (index: number) => setCurrentIndex(index);
+  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const currentSlide = slides[currentIndex];
+
+  // Variants cho hiệu ứng chuyển ảnh đẹp
+   // Variants cho hiệu ứng chuyển ảnh đẹp
+  const imageVariants = {
+    enter: (direction: number) => ({
+      opacity: 0,
+      scale: 1.08,
+      x: direction > 0 ? 40 : -40,
+    }),
+    center: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      transition: {
+        duration: 0.9,
+        ease: [0.25, 0.1, 0.25, 1] as const,   // ← thêm "as const" ở đây
+      },
+    },
+    exit: (direction: number) => ({
+      opacity: 0,
+      scale: 0.92,
+      x: direction > 0 ? -40 : 40,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.1, 0.25, 1] as const,   // ← thêm "as const" ở đây
+      },
+    }),
+  };
   return (
     <section className="py-24 px-4 bg-background overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
-          {/* Image Side */}
+        {/* Image Side - Carousel đẹp hơn */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="relative group"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => {
+              setIsHovered(false);
+              setMousePosition({ x: 0, y: 0 });
+            }}
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = (e.clientX - rect.left - rect.width / 2) * 0.02;
+              const y = (e.clientY - rect.top - rect.height / 2) * 0.02;
+              setMousePosition({ x, y });
+            }}
           >
-            <div className="absolute -inset-4 bg-secondary/20 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-500" />
-            <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-[4/5]">
-              <img 
-                src={portraitImage} 
-                alt="Graduate Portrait" 
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
-                <div>
-                  <h3 className="text-white font-serif text-2xl font-bold">Tran Thi Thao Nguyen</h3>
-                  <p className="text-white/90 font-sans">Bachelor of Information Technology</p>
+            <div className="absolute -inset-4 bg-secondary/20 rounded-2xl transform rotate-3 group-hover:rotate-6 transition-transform duration-700" />
+            
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] bg-black">
+              <AnimatePresence custom={currentIndex} mode="wait">
+                <motion.img
+                  key={currentSlide.id}
+                  src={currentSlide.image}
+                  alt={currentSlide.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  custom={currentIndex}
+                  variants={imageVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  style={{
+                    transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
+                  }}
+                />
+              </AnimatePresence>
+
+              {/* Overlay gradient + text (thay đổi theo ảnh) */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-transparent flex items-end p-8 transition-opacity duration-500"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isHovered ? 1 : 0.85 }}
+              >
+                <div className="text-white">
+                  <motion.h3 
+                    key={currentSlide.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="font-serif text-3xl font-bold"
+                  >
+                    {currentSlide.name}
+                  </motion.h3>
+                  <motion.p 
+                    key={currentSlide.major}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="font-sans text-lg text-white/90 mt-1"
+                  >
+                    {currentSlide.major}
+                  </motion.p>
                 </div>
+              </motion.div>
+
+              {/* Nút Prev / Next */}
+              <button
+                onClick={prevSlide}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-4 rounded-full transition-all opacity-0 group-hover:opacity-100 backdrop-blur-sm"
+              >
+                ←
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-4 rounded-full transition-all opacity-0 group-hover:opacity-100 backdrop-blur-sm"
+              >
+                →
+              </button>
+
+              {/* Dots */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToIndex(index)}
+                    className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${
+                      index === currentIndex 
+                        ? "bg-white scale-125 shadow-lg" 
+                        : "bg-white/50 hover:bg-white/80"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </motion.div>
-
           {/* Info Side */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}

@@ -27,33 +27,40 @@ export function Guestbook() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newName || !newMessage) return;
+  e.preventDefault();
 
-    try {
-      await createMutation.mutateAsync({
-        name: newName,
-        message: newMessage,
-        email: newEmail || undefined,
-      });
+  if (!newName.trim() || !newMessage.trim()) {
+    toast({
+      title: "Missing information",
+      description: "Please enter your name and message.",
+      variant: "destructive",
+    });
+    return;
+  }
 
-      toast({
-        title: "Message submitted!",
-        description: "Thank you for your message ❤️",
-      });
+  try {
+    await createMutation.mutateAsync({
+      name: newName,
+      message: newMessage,
+      email: newEmail || undefined,
+    });
 
-      setNewName("");
-      setNewEmail("");
-      setNewMessage("");
-    } catch (error) {
-      toast({
-        title: "Error!",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
+    toast({
+      title: "Message submitted!",
+      description: "Thank you for your message ❤️",
+    });
 
+    setNewName("");
+    setNewEmail("");
+    setNewMessage("");
+  } catch (error) {
+    toast({
+      title: "Error!",
+      description: "Something went wrong. Please try again.",
+      variant: "destructive",
+    });
+  }
+};
   return (
     <section className="py-24 px-4 bg-background">
       <div className="max-w-5xl mx-auto">

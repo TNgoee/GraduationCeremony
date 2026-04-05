@@ -1,19 +1,30 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/navbar";
-import campusImg from "@assets/generated_images/7.jpg";
-import groupImg from "@assets/generated_images/7.jpg";
-import portraitImg from "@assets/generated_images/6.jpg";
-import heroImg from "@assets/generated_images/4.jpg";
-import ngoImg from "@assets/generated_images/ngoeeee.jpg";
+
+import groupImg from "@assets/generated_images/36.jpg";
+import portraitImg from "@assets/generated_images/34.jpg";
+import heroImg from "@assets/generated_images/32.jpg";
+import ngoImg from "@assets/generated_images/39.jpg";
 import z1Img from "@assets/generated_images/1.jpg";
-import z2Img from "@assets/generated_images/2.jpg";
-import z3Img from "@assets/generated_images/5.jpg";
+import z2Img from "@assets/generated_images/8.jpg";
+import z3Img from "@assets/generated_images/2.jpg";
 import z4Img from "@assets/generated_images/4.jpg";
-import z5Img from "@assets/generated_images/1.jpg";
-import z6Img from "@assets/generated_images/2.jpg";
-import z7Img from "@assets/generated_images/5.jpg";
-import z8Img from "@assets/generated_images/4.jpg";
+import z5Img from "@assets/generated_images/5.jpg";
+import z6Img from "@assets/generated_images/6.jpg";
+import z7Img from "@assets/generated_images/3.jpg";
+import z8Img from "@assets/generated_images/7.jpg";
+
+import z9Img from "@assets/generated_images/9.jpg";
+import z10Img from "@assets/generated_images/10.jpg";
+import z11Img from "@assets/generated_images/11.jpg";
+import z12Img from "@assets/generated_images/12.jpg";
+import z13Img from "@assets/generated_images/13.jpg";
+import z14Img from "@assets/generated_images/14.jpg";
+import z15Img from "@assets/generated_images/15.jpg";
+import z16Img from "@assets/generated_images/16.jpg";
+
+import z17Img from "@assets/generated_images/29.jpg";
 import { cn } from "@/lib/utils";
 
 // --- Components ---
@@ -44,7 +55,7 @@ function ChapterNavigation() {
   const chapters = [
     { id: "hero", label: "Intro" },
     { id: "school", label: "School Days" },
-    { id: "hongkong", label: "Hong Kong" },
+    { id: "hongkong", label: "SaiGon" },
     { id: "graduation", label: "Graduation" },
   ];
 
@@ -143,7 +154,7 @@ function SchoolSection() {
              <h2 className="text-5xl md:text-6xl font-serif text-slate-800 mb-6 tracking-tight">School Days</h2>
              <div className="w-12 h-1 bg-sky-200 mx-auto mb-6" />
              <p className="font-serif text-slate-500 text-lg md:text-xl max-w-lg mx-auto leading-relaxed italic">
-               "Where it all began. In the quiet corridors and crowded classrooms, we found something more than just knowledge."
+               "It all started with a simple question: ‘Do you still need a teammate?’ — and somehow, that moment turned into something more."
              </p>
           </div>
         </div>
@@ -159,7 +170,7 @@ function SchoolSection() {
                         <img src={images[0]} className="w-full h-full object-cover" alt="School Memory 1" />
                     </div>
                     <div className="absolute bottom-0 right-0 p-4">
-                        <span className="font-handwriting text-slate-400 text-lg">2018</span>
+                        <span className="font-handwriting text-slate-400 text-lg">2026</span>
                     </div>
                 </motion.div>
 
@@ -256,7 +267,7 @@ function SchoolSection() {
 }
 
 function HongKongSection() {
-  const images = [z5Img, z4Img, z6Img, z7Img, z5Img, z4Img, z6Img, z7Img]; // Duplicated for longer reel
+  const images = [z9Img, z10Img, z11Img, z12Img, z13Img, z14Img, z15Img, z16Img]; // Duplicated for longer reel
 
   return (
     <section id="hongkong" className="relative h-screen bg-black overflow-hidden flex flex-col justify-center">
@@ -280,7 +291,7 @@ function HongKongSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl md:text-7xl font-serif tracking-tight text-white"
           >
-            Hong Kong Concept
+            SaiGon 2026
           </motion.h5>
           <motion.div
             initial={{ opacity: 0 }}
@@ -416,7 +427,7 @@ function GraduationHero() {
       <motion.div style={{ y }} className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70 z-10" />
         <img 
-          src={z2Img} 
+          src={z17Img} 
           className="w-full h-full object-cover" 
           alt="Graduation" 
         />
@@ -535,7 +546,7 @@ function GraduationHero() {
           className="space-y-2"
         >
           <p className="font-serif text-base md:text-lg text-white/80 tracking-wider">
-            K28 
+              
           </p>
           <div className="flex items-center justify-center gap-3 text-sm text-amber-400/60 font-light">
             <span>●</span>
